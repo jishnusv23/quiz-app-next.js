@@ -6,8 +6,8 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4 py-8">
-      <div className="w-full max-w-md space-y-8">
+    <div className="min-h-screen bg-background flex items-center justify-center ">
+      <div className="w-full max-w-md space-y-6">
         {/* Header */}
         <div className="text-center">
           <h1 className="text-white text-3xl md:text-4xl font-light mb-12">
@@ -16,7 +16,7 @@ const page = () => {
         </div>
 
         {/* Auth Buttons */}
-        <div className="space-y-2">
+        <div className="space-y-3  ">
           <GithubAuth />
           <EmailAuth />
           <GoogleAuth />

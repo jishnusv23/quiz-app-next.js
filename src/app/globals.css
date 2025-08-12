@@ -101,10 +101,46 @@
   --ring: 0 0% 83.1%;
 }
 
+/* Fix for mobile overscroll background */
+html {
+  background-color: hsl(var(--background));
+  overflow-x: hidden;
+  height: 100%;
+}
+
 body {
   font-family: "Questrial", sans-serif;
   font-weight: 400;
   font-style: normal;
+  background-color: hsl(var(--background));
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  /* Prevent overscroll bounce on mobile */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
+}
+
+/* Ensure dark mode gets proper background */
+.dark html,
+.dark body {
+  background-color: hsl(222.2, 84%, 4.9%); /* Dark background */
+}
+
+/* Additional mobile fixes */
+@media screen and (max-width: 768px) {
+  body {
+    position: relative;
+    height: 100vh;
+    height: 100dvh;
+  }
+  
+  /* Prevent elastic scroll on iOS */
+  html, body {
+    touch-action: manipulation;
+  }
 }
 
 .hover-text {

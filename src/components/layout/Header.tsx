@@ -23,7 +23,6 @@ const Header = () => {
         }`}
       >
         <span className="font-extrabold text-3xl leading-none">ALGO</span>
-    
 
         <span className="font-extrabold text-3xl leading-none">ARENA</span>
       </div>
@@ -65,13 +64,13 @@ const Header = () => {
             onClick={toggleMenu}
             className="text-xl text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
           >
-            <FaBars />
+            <FaBars />-.62z
           </button>
         </div>
 
         {/* Mobile Menu Dropdown */}
         {menuOpen && (
-          <div className="absolute top-full left-0 w-full bg-white dark:bg-gray-800 shadow-lg border-t border-gray-200 dark:border-gray-700 lg:hidden">
+          <div className="absolute top-full left-0 w-full bg-background shadow-lg border-t border-gray-200 dark:border-gray-700 lg:hidden">
             <div className="flex flex-col p-4 gap-4">
               <Link
                 href="/"
@@ -89,14 +88,14 @@ const Header = () => {
               </Link>
               <Link
                 href="/contact"
-                className="hover:text-violet-200 text-blue-600 transition-colors duration-200"
+                className="hover:text-violet-200 text-primary transition-colors duration-200"
                 onClick={() => setMenuOpen(false)}
               >
                 Contact Us
               </Link>
               <Link
                 href="/login"
-                className="hover:text-violet-200 text-blue-600 transition-colors duration-200"
+                className="hover:text-violet-200 text-primary transition-colors duration-200"
                 onClick={() => setMenuOpen(false)}
               >
                 Login

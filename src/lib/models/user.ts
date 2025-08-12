@@ -7,18 +7,23 @@ export interface IUser extends Document {
   password?: string;
   playedQuiz: mongoose.Types.ObjectId[];
   isAdmin: boolean;
-  isVerified: boolean;
+  isVerified: "google" | "github" | "ios" | "email";
   createdAt: Date;
-  updateAt: Date;
+  updatedAt: Date;
 }
 
 const userSchema = new Schema<IUser>(
   {
     username: { type: String, required: true, trim: true, maxlength: 15 },
     email: { type: String, required: true, unique: true, lowercase: true },
-    password: { type: String, minlength: 6,default:null },
+    password: { type: String, minlength: 6, default: null },
+    playedQuiz: [{ type: Schema.Types.ObjectId, ref: "Quiz", default: [] }],
     isAdmin: { type: Boolean, default: false },
-    isVerified: { type: Boolean, default: false },
+    isVerified: { 
+      type: String, 
+      default: "google",
+      enum: ["google", "github", "ios", "email"]
+    },
   },
   { timestamps: true }
 );
