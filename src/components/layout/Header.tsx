@@ -6,15 +6,25 @@ import { FaBars } from "react-icons/fa";
 import { GiBrain } from "react-icons/gi";
 import { useTheme } from "../ui/theme-provider";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "@/store/slice/user";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const dispatch = useDispatch();
+  const { isAuthenticated, isAdmin } = useSelector((state: any) => state.user);
+  console.log("🚀 ~ Header ~ isAuthenticated:", isAuthenticated);
+
   const { theme } = useTheme();
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
+  const handleLogut = () => {
+    dispatch(logoutUser());
+  };
   return (
-    <nav className="flex bg-background  border-gray-200  justify-between lg:px-40 py-3 shadow-md fixed w-full z-50">
+    <nav className="flex bg-background-accent  border-gray-200  justify-between lg:px-40 py-3 shadow-md fixed w-full z-50">
       <div
         className={`flex items-center cursor-pointer ${
           theme === "light"
@@ -42,18 +52,30 @@ const Header = () => {
           >
             Quiz
           </Link>
-          <Link
-            href="/contact"
-            className="hover:text-violet-200 text-primary transition-colors duration-200"
-          >
-            Contact Us
-          </Link>
-          <Link
-            href="/login"
-            className="hover:text-violet-200 text-primary transition-colors duration-200"
-          >
-            Login
-          </Link>
+
+          {isAuthenticated ? (
+            <Link
+              href="/"
+              className="hover:text-violet-200 text-primary transition-colors duration-200"
+              onClick={() => {
+                // Call your logout function here
+                handleLogut();
+
+                setMenuOpen(false);
+              }}
+            >
+              Logout
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="hover:text-violet-200 text-primary transition-colors duration-200"
+              onClick={() => setMenuOpen(false)}
+            >
+              Login
+            </Link>
+          )}
+
           <ModeToggle />
         </div>
 
@@ -64,7 +86,7 @@ const Header = () => {
             onClick={toggleMenu}
             className="text-xl text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
           >
-            <FaBars />-.62z
+            <FaBars />
           </button>
         </div>
 
@@ -86,20 +108,27 @@ const Header = () => {
               >
                 Quiz
               </Link>
-              <Link
-                href="/contact"
-                className="hover:text-violet-200 text-primary transition-colors duration-200"
-                onClick={() => setMenuOpen(false)}
-              >
-                Contact Us
-              </Link>
-              <Link
-                href="/login"
-                className="hover:text-violet-200 text-primary transition-colors duration-200"
-                onClick={() => setMenuOpen(false)}
-              >
-                Login
-              </Link>
+
+              {isAuthenticated ? (
+                <Link
+                  href="/"
+                  className="hover:text-violet-200 text-primary transition-colors duration-200"
+                  onClick={() => {
+                    handleLogut();
+                    setMenuOpen(false);
+                  }}
+                >
+                  Logout
+                </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="hover:text-violet-200 text-primary transition-colors duration-200"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Login
+                </Link>
+              )}
             </div>
           </div>
         )}

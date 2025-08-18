@@ -22,7 +22,7 @@ const userSlice = createSlice({
   initialState: INITIAL_STATE,
   reducers: {
     loginSuccess: (state: UserState, action) => {
-      state.isAdmin  =action.payload.isAdmin;
+      state.isAdmin = action.payload.isAdmin;
       state.data = action.payload;
       state.isAuthenticated = true;
     },
@@ -38,6 +38,7 @@ const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(googleAuthAction.fulfilled, (state: UserState, action) => {
+      
         state.loading = false;
         state.isAuthenticated = true;
         action.payload.isAdmin ? (state.isAdmin = true) : "";

@@ -26,7 +26,7 @@ const GoogleAuth = () => {
       
         dispatch(loginSuccess(responoe.payload));
 
-        router.push("/profile");
+        
       } else if (responoe.type.endsWith("/rejected")) {
         console.error("Google authentication failed:", responoe.payload);
       }

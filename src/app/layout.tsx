@@ -3,8 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReduxProvider from "@/store/provider";
 import { PersistGateProvider } from "@/lib/presistor/presistGate";
+import { ReactQueryClientProvider } from "@/lib/queryclient/queryclient";
 const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID as string;
 console.log("🚀 ~ clientId:", clientId);
 const geistSans = Geist({
@@ -34,13 +36,11 @@ export default function RootLayout({
       >
         <ReduxProvider>
           <PersistGateProvider>
-
-
-          <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-            <GoogleOAuthProvider clientId={clientId}>
-              {children}
-            </GoogleOAuthProvider>
-          </ThemeProvider>
+            <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+              <GoogleOAuthProvider clientId={clientId}>
+                <ReactQueryClientProvider>{children}</ReactQueryClientProvider>
+              </GoogleOAuthProvider>
+            </ThemeProvider>
           </PersistGateProvider>
         </ReduxProvider>
       </body>

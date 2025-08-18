@@ -1,24 +1,22 @@
 import React, { ReactNode } from "react";
 import type { Metadata } from "next";
 import Header from "@/components/layout/Header";
-import { ProtectedRoute } from "@/services/protected";
+
 
 export const metadata: Metadata = {
   title: "Realia | Login",
   description: "Created by Farrago",
 };
-const AuthLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
+const AdminLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <div>
       <Header />
       <main>
-        <ProtectedRoute>
-
-        {children}
-        </ProtectedRoute>
-        </main>
+  
+    {children}
+      </main>
     </div>
   );
 };
 
-export default AuthLayout;
+export default AdminLayout;

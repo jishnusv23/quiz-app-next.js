@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
-import QuizCard from "./QuizCard";
+import QuizCard from "../quiz/QuizCard";
+import { useRouter } from "next/navigation";
 
 interface QuizData {
   id: string;
@@ -14,6 +15,7 @@ interface QuizData {
 }
 
 const QuizList: React.FC = () => {
+  const router = useRouter();
   const quizzes: QuizData[] = [
     {
       id: "1",
@@ -90,47 +92,16 @@ const QuizList: React.FC = () => {
   ];
 
   const handlePlayNow = (quiz: QuizData) => {
-    console.log(`Starting quiz: ${quiz.title}`);
-   
+    router.push(`/quiz/${quiz.id}`);
   };
 
   return (
     <div className="min-h-screen bg-background from-slate-50 via-blue-50 to-indigo-100">
-
-      <div className="bg-background ">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Featured{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">
-                Quizzes
-              </span>
-            </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Challenge yourself with our comprehensive collection of
-              interactive quizzes. Test your skills and expand your knowledge
-              across various topics.
-            </p>
-          </div>
-        </div>
-      </div>
-
-  
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
-
-     
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {quizzes.map((quiz) => (
             <QuizCard key={quiz.id} data={quiz} onPlayNow={handlePlayNow} />
           ))}
-        </div>
-
-       
-        <div className="text-center mt-12">
-          <button className="bg-white hover:bg-gray-50 text-gray-700 font-semibold py-3 px-8 rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:shadow-lg">
-            Load More Quizzes
-          </button>
         </div>
       </div>
     </div>

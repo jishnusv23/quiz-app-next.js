@@ -36,3 +36,5 @@ const quizSchema = new Schema<IQuiz>({
   authorId: { type: Schema.Types.ObjectId, ref: "User", required: true },
   questions: [{ type: Schema.Types.ObjectId, ref: "Question" }],
 },{timestamps:true});
+const QuizModel = mongoose.models.Quiz || model<IQuiz>("Quiz", quizSchema);
+export { QuizModel };
