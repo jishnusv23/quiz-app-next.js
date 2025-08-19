@@ -64,7 +64,7 @@ const QuizQuestion: React.FC = () => {
     mutationFn: saveAnswer,
     onSuccess: (data) => {
       setLoading(false);
-      router.replace("/admin/addquiz/success");
+      router.replace("/admin");
       console.log("my data ", data);
     },
     onError: (error) => {

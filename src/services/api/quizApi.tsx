@@ -2,7 +2,7 @@ import { deleteRequest, getRequest, postRequest } from "../../utils/axios";
 
 export const saveQuiz = async (payload: any) => {
   try {
-    const res = await postRequest("/quiz/adduiz", payload);
+    const res = await postRequest("/quiz/addquiz", payload);
     if (res?.status == 200) {
       return res.data;
     }

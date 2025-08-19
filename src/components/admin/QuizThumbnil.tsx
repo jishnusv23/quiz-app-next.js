@@ -14,18 +14,21 @@ interface QuizData {
   thumbnail: string;
   difficulty: string;
   duration: string;
-  questions: number;
+ 
   category: string;
 }
 
 const QuizThumbnail = () => {
-  const [image, setImage] = useState<string | null>(null);
+  // Store both the File object and preview URL
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    difficulty: "Easy",
+    difficulty: "easy",
     duration: "",
-    questions: 1,
+ 
     category: "",
   });
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,13 +40,14 @@ const QuizThumbnail = () => {
     onSuccess: (data) => {
       console.log(data);
       setLoading(false);
-      setImage(null);
+      setImageFile(null);
+      setImagePreview(null);
       setFormData({
         title: "",
         description: "",
-        difficulty: "Easy",
+        difficulty: "easy",
         duration: "",
-        questions: 1,
+      
         category: "",
       });
       dispatch(quizCreated(data));
@@ -64,7 +68,7 @@ const QuizThumbnail = () => {
   };
 
   const validateForm = (): boolean => {
-    if (!image) {
+    if (!imageFile) {
       setError("Please upload an image");
       return false;
     }
@@ -84,10 +88,7 @@ const QuizThumbnail = () => {
       setError("Please enter duration");
       return false;
     }
-    if (formData.questions < 1) {
-      setError("Questions must be at least 1");
-      return false;
-    }
+   
     return true;
   };
 
@@ -101,7 +102,8 @@ const QuizThumbnail = () => {
     }
 
     try {
-      const savedImage = await ImageUpload(image!);
+      const savedImage = await ImageUpload(imageFile!); // Pass the File object
+      console.log("🚀 ~ handleSubmit ~ savedImage:", savedImage);
       savedMutate({
         ...formData,
         thumbnail: savedImage,
@@ -113,43 +115,41 @@ const QuizThumbnail = () => {
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file type
-      if (!file.type.startsWith("image/")) {
-        setError("Please select a valid image file");
-        return;
-      }
+      // Store the actual File object
+      setImageFile(file);
 
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        setError("Image size should be less than 5MB");
-        return;
-      }
-
+      // Create preview URL for display
       const reader = new FileReader();
       reader.onload = () => {
         const dataURL = reader.result as string;
-        setImage(dataURL);
-        if (error) setError(null);
+        setImagePreview(dataURL);
       };
       reader.readAsDataURL(file);
     }
   };
 
   const removeImage = () => {
-    setImage(null);
+    setImageFile(null);
+    setImagePreview(null);
   };
 
-  const difficultyOptions = ["Easy", "Medium", "Hard"];
+  const difficultyOptions = ["easy","medium","hard"];
   const categoryOptions = [
     "Frontend",
     "Backend",
-    "Full Stack",
+   
     "Database",
-    "DevOps",
-    "Mobile",
-    "UI/UX",
+   
+    
+    "JavaScript",
+    "React",
+    "HTML",
+    "DS",
+    "MongoDB",
+    "Node",
   ];
 
   return (
@@ -168,10 +168,10 @@ const QuizThumbnail = () => {
               Quiz Thumbnail *
             </label>
             <div className="relative border-2 border-dashed border-purple-300 rounded-xl p-4 hover:border-purple-400 transition-colors">
-              {image ? (
+              {imagePreview ? (
                 <div className="relative">
                   <img
-                    src={image}
+                    src={imagePreview}
                     alt="Quiz thumbnail"
                     className="w-full h-32 object-cover rounded-lg shadow-md"
                   />
@@ -268,7 +268,6 @@ const QuizThumbnail = () => {
               </select>
             </div>
 
-           
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-2">
@@ -304,20 +303,7 @@ const QuizThumbnail = () => {
             </div>
 
             {/* Number of Questions */}
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
-                Number of Questions *
-              </label>
-              <input
-                type="number"
-                name="questions"
-                value={formData.questions}
-                onChange={handleInputChange}
-                min="1"
-                max="100"
-                className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all text-sm"
-              />
-            </div>
+          
           </div>
 
           {/* Quick Stats Preview */}
@@ -332,12 +318,7 @@ const QuizThumbnail = () => {
                   Difficulty: {formData.difficulty}
                 </span>
               </div>
-              <div className="flex items-center space-x-2">
-                <span className="w-2 h-2 bg-blue-400 rounded-full"></span>
-                <span className="text-slate-600">
-                  Questions: {formData.questions}
-                </span>
-              </div>
+          
               <div className="flex items-center space-x-2">
                 <span className="w-2 h-2 bg-pink-400 rounded-full"></span>
                 <span className="text-slate-600">
