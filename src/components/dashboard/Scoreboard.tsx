@@ -9,7 +9,7 @@ const ScoreBoard = ({ answers, setAnswers }: any) => {
   const outOfScore = answers?.length;
 
   return (
-    <div className="w-[60%] mx-auto mt-[10%] border-2 shadow-2xl flex items-center justify-center flex-col  border-dotted border-[#FDB101] h-[30vh] ">
+    <div className="w-[60%] mx-auto mt-[10%] border-2  text-primary flex items-center justify-center flex-col p-0.5 rounded-lg shadow-2xl  bg-gradient-to-r from-pink-600 to-blue-600 h-[30vh] ">
       <h3 className="text-center font-primary text-2xl font-semibold">
         Your Score
       </h3>

@@ -1,6 +1,7 @@
 import { QuizModel } from "@/lib/models/quiz";
 import { NextResponse, NextRequest } from "next/server";
-
+import { dbConnect } from "@/lib/db/connection";
+dbConnect()
 export async function GET(request: NextRequest) {
   try {
     const payload = await QuizModel.find();

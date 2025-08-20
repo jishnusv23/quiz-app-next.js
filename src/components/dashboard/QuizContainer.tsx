@@ -13,11 +13,13 @@ import ScoreBoard from "./Scoreboard";
 import { useTimer } from "use-timer";
 import { UseUser } from "@/hooks/UseUser";
 import { useSelector } from "react-redux";
+import { useTheme } from "../ui/theme-provider";
 interface Params {
   id: string;
 }
 const QuizContainer = () => {
   const user = useSelector((state: any) => state.user?.data);
+    const { theme } = useTheme();
 
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [timer, setTimer] = useState<number>(0);
@@ -49,7 +51,6 @@ const QuizContainer = () => {
   };
   useEffect(() => {
     start();
-    
   }, []);
 
   const score = answers?.filter((item: any) => {
@@ -57,58 +58,36 @@ const QuizContainer = () => {
   }).length;
   const outOfScore = answers?.length;
 
-
   const currentQuestion = quiz?.payload?.questions[currentIndex];
   const questionTitle = quiz?.payload?.title;
   const question = quiz?.payload?.questions;
   const isLastQuestion = currentIndex === quiz?.payload?.questions.length - 1;
-  const { mutate: userHistoryUpdate } = useMutation({
-    mutationFn: updateUserPlayed,
-    onSuccess: (data) => {},
-  });
+  // const { mutate: userHistoryUpdate } = useMutation({
+  //   mutationFn: updateUserPlayed,
+  //   onSuccess: (data) => {},
+  // });
 
   const handleFinishQuiz = () => {
     console.log("user", user);
 
-    userHistoryUpdate({
-      userId: user._id,
-      quizData: {
-        quizName: questionTitle,
-        score: score + 1,
-        outOfScore: outOfScore + 1,
-        id,
-      },
-    });
+    // userHistoryUpdate({
+    //   userId: user._id,
+    //   quizData: {
+    //     quizName: questionTitle,
+    //     score: score + 1,
+    //     outOfScore: outOfScore + 1,
+    //     id,
+    //   },
+    // });
     setCurrentIndex((prev) => prev + 1);
     setAnswers((prev) => [...prev, selectedOption]);
   };
   return (
     <>
       {isLoading ? (
-        <div className="w-[80%] mx-auto h-[80vh]">
-          
-        </div>
+        <div className="w-[80%] mx-auto h-[80vh]"></div>
       ) : (
-        <div className="w-[80%] mx-auto h-[80vh]">
-          {time > 30 && answers.length < 3 ? (
-            <div className="w-[80%] mx-auto flex items-end justify-end relative top-[5%] mr-[15%]">
-              <button
-                onClick={() => {
-                  handleAnswerSubmit();
-                }}
-                className="bg-[#FDB101] py-3  w-[20%] text-white rounded-lg hover:text-yellow hover:bg-white hover:border hover:border-[#FDB101]"
-              >
-                Show Answer
-              </button>
-            </div>
-          ) : (
-            <div className="w-[80%] mx-auto flex items-end justify-end relative top-[5%] mr-[15%]">
-              <h3 className="font-mono font-bold text-3xl text-gray-700">
-                ⏲️ {time}
-              </h3>
-            </div>
-          )}
-
+        <div className="w-[80%] pt-20 mx-auto h-[80vh]">
           {answers.length < question?.length && !isLoading ? (
             <div className="wrapper mt-[6%]">
               <Question
@@ -132,14 +111,22 @@ const QuizContainer = () => {
                   isLastQuestion ? (
                     <button
                       onClick={handleFinishQuiz}
-                      className="bg-[#FDB101] py-3 mt-10 w-[20%] text-white rounded-lg hover:text-yellow hover:bg-white hover:border hover:border-[#FDB101]"
+                      className={`py-3 mt-10 w-[20%] text-white rounded-lg ${
+                        theme === "light"
+                          ? "bg-gradient-to-r from-pink-600 to-blue-600 hover:from-pink-700 hover:to-blue-700"
+                          : "bg-gradient-to-r from-pink-500 to-blue-500 hover:from-pink-600 hover:to-blue-600"
+                      } `}
                     >
                       Finish
                     </button>
                   ) : (
                     <button
                       onClick={handleQuizIndex}
-                      className="bg-[#FDB101] py-3 mt-10 w-[20%] text-white rounded-lg hover:text-yellow hover:bg-white hover:border hover:border-[#FDB101]"
+                      className={`py-3 mt-10 w-[20%] text-white rounded-lg ${
+                        theme === "light"
+                          ? "bg-gradient-to-r from-pink-600 to-blue-600 hover:from-pink-700 hover:to-blue-700"
+                          : "bg-gradient-to-r from-pink-500 to-blue-500 hover:from-pink-600 hover:to-blue-600"
+                      } `}
                     >
                       Next
                     </button>
@@ -147,7 +134,11 @@ const QuizContainer = () => {
                 ) : (
                   <button
                     onClick={handleAnswerSubmit}
-                    className="bg-[#FDB101] py-3 mt-10 w-[20%] text-white rounded-lg hover:text-yellow hover:bg-white hover:border hover:border-[#FDB101]"
+                    className={`py-3 mt-10 w-[20%] text-white rounded-lg ${
+                      theme === "light"
+                        ? "bg-gradient-to-r from-pink-600 to-blue-600 hover:from-pink-700 hover:to-blue-700"
+                        : "bg-gradient-to-r from-pink-500 to-blue-500 hover:from-pink-600 hover:to-blue-600"
+                    } `}
                   >
                     Submit
                   </button>
